@@ -1,4 +1,9 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:zine_prototype/screens/custom_screen.dart';
+import 'package:zine_prototype/screens/home_screen.dart';
+import 'package:zine_prototype/screens/side_bar_screen.dart';
+import 'package:zine_prototype/widgets/bounce_tab_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,22 +11,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<BottomNavigationBarItem> btmNavItems = [
-    BottomNavigationBarItem(icon:Icon(Icons.home), label : ''),
-    BottomNavigationBarItem(icon:Icon(Icons.search), label : ''),
-    BottomNavigationBarItem(icon:Icon(Icons.add), label : ''),
-    BottomNavigationBarItem(icon:Icon(Icons.healing), label : ''),
-    BottomNavigationBarItem(icon:Icon(Icons.account_circle), label : '')
-  ];
+
 
   int _selectedIndex = 0;
   GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   static List<Widget> _screens = <Widget>[
-    Container(color: Colors.yellowAccent,),
-    Container(color: Colors.blueAccent,),
-    Container(color: Colors.greenAccent,),
-    Container(color: Colors.deepPurpleAccent,),
+    HomeScreen(),
+    CustomScreen(),
+    SideBarScreen(),
     Container(color: Colors.deepOrangeAccent,),
   ];
 
@@ -29,26 +27,41 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
+      extendBody: true,
       body: IndexedStack(
           index: _selectedIndex,
           children : _screens
       ),
-      bottomNavigationBar: Container(
-        child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.black87,
-          currentIndex: _selectedIndex,
-          items : btmNavItems,
-          onTap: (int index) {
-            switch(index) {
-              default:
-                setState(() { _selectedIndex = index; });
-            }
-          },
-        ),
+      bottomNavigationBar: BounceTabBar(
+        onTabChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        backgroundColor: Colors.blue,
+        items: [
+          Icon(Icons.person_outline, color: Colors.white,),
+          Icon(Icons.print, color: Colors.white,),
+          Icon(Icons.signal_cellular_no_sim, color: Colors.white,),
+          Icon(Icons.speaker_notes, color: Colors.white, ),
+        ],
       ),
+
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: Colors.blue,
+      //   height: 50,
+      //   items :[
+      //         Icon(Icons.person_outline, color: Colors.blue,),
+      //         Icon(Icons.print, color: Colors.blue,),
+      //         Icon(Icons.signal_cellular_no_sim, color: Colors.blue,),
+      //         Icon(Icons.speaker_notes, color: Colors.blue, ),
+      //   ],
+      //   onTap: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //   },
+      // ),
     );
   }
 }
