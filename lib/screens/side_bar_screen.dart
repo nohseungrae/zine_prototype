@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class SideBarScreen extends StatefulWidget {
@@ -14,14 +16,35 @@ class _SideBarScreenState extends State<SideBarScreen> {
 
   double yOffset = 0;
   double xOffset = 60;
+  double pageScale = 1;
 
   void setSideBarState () {
     setState(() {
       xOffset = sideBarOpen ? 265 : 60;
+      yOffset = sideBarOpen ? 70 : 0;
+      pageScale = sideBarOpen ? 0.8 : 1;
     });
   }
 
   int _seletedIndex = 0;
+  String pageTitle = 'Homepage';
+
+  void setPageTitle() {
+    switch(_seletedIndex){
+      case 0:
+        pageTitle = 'Homepage';
+        break;
+      case 1:
+        pageTitle = 'Blogger';
+        break;
+      case 2:
+        pageTitle = 'Add New Post';
+        break;
+      case 3:
+        pageTitle = 'Settings';
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +61,24 @@ class _SideBarScreenState extends State<SideBarScreen> {
                 Container(
                   margin : EdgeInsets.only(top : 24),
                   color: Colors.blue,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    title: TextField(
-                        decoration: InputDecoration(
-                          border : InputBorder.none,
-                          contentPadding: EdgeInsets.all(20),
-                          hintText: 'Search here',
-                          hintStyle: TextStyle(
-                            color : Colors.white
-                          )
-                        ),
+                  child: Container(
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.white,
                       ),
+                      title: TextField(
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                                border : InputBorder.none,
+                                contentPadding: EdgeInsets.all(20),
+                                hintText: 'Search here',
+                                hintStyle: TextStyle(
+                                  color : Colors.white
+                              )
+                            ),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -64,6 +90,7 @@ class _SideBarScreenState extends State<SideBarScreen> {
                             onTap: () {
                               sideBarOpen = false;
                               _seletedIndex = index;
+                              setPageTitle();
                               setSideBarState();
                             },
                             child: MenuItem(
@@ -94,30 +121,43 @@ class _SideBarScreenState extends State<SideBarScreen> {
             child: AnimatedContainer(
               curve: Curves.easeInOut,
               duration: Duration(milliseconds: 200),
-              transform: Matrix4.translationValues(xOffset, yOffset, 1.0),
+              transform: Matrix4.translationValues(xOffset, yOffset, 1.0)..scale(pageScale),
               width: double.infinity,
               height: double.infinity,
-              color : Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: sideBarOpen ? BorderRadius.circular(20) : BorderRadius.circular(0)
+              ),
               child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        sideBarOpen = !sideBarOpen;
-                        setSideBarState();
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 24),
-                        height: 60,
-                        child: Row(
-                          children: [
-                            Container(
+                    Container(
+                      margin: EdgeInsets.only(top: 24),
+                      height : 60,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              sideBarOpen = !sideBarOpen;
+                              setSideBarState();
+                            },
+                            child: Container(
+                                color: Colors.white,
                                 padding: EdgeInsets.all(20),
                                 child: Icon(Icons.menu)
-                            )
-                          ],
-                        ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: Text(
+                              pageTitle,
+                              style: TextStyle(
+                                fontSize: 18
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
+                    ),
                   ]
               ),
             ),

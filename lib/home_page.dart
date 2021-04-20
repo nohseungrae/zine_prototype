@@ -2,7 +2,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:zine_prototype/screens/custom_screen.dart';
 import 'package:zine_prototype/screens/home_screen.dart';
+import 'package:zine_prototype/screens/second_screen.dart';
 import 'package:zine_prototype/screens/side_bar_screen.dart';
+import 'package:zine_prototype/screens/transformer_screen.dart';
 import 'package:zine_prototype/widgets/bounce_tab_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     CustomScreen(),
     SideBarScreen(),
-    Container(color: Colors.deepOrangeAccent,),
+    TransformerScreen()
   ];
 
   @override
@@ -45,6 +47,20 @@ class _HomePageState extends State<HomePage> {
           Icon(Icons.signal_cellular_no_sim, color: Colors.white,),
           Icon(Icons.speaker_notes, color: Colors.white, ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Navigator.of(context).push(PageRouteBuilder(
+              pageBuilder: (context, animation, _) {
+                return SecondScreen();
+              },
+              opaque: false));
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.blue,
+        ),
       ),
 
       // bottomNavigationBar: CurvedNavigationBar(

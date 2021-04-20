@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  material_design_icons_flutter:
   flutter:
     sdk: flutter
 
@@ -30,6 +31,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.0.0
   curved_navigation_bar: ^0.3.7
+  transformer_page_view: ^0.1.6
 
 dev_dependencies:
   flutter_test:
@@ -47,8 +49,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-#  assets:
-#    - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
